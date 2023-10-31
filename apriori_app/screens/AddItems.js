@@ -1,14 +1,53 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { openDatabase } from 'react-native-sqlite-storage';
+import { NativeModules } from 'react-native';
 
+const { AdditionModule } = NativeModules;
 const db = openDatabase({ name: 'onlineGrocery.db' });
 
+
 const AddItems = () => {
+    const data = [
+        ["chicken", "lettuce", "tomato", "onion", "cucumber"],
+        ["chicken", "lettuce", "tomato", "onion", "carrot"],
+        ["chicken", "lettuce", "tomato", "onion", "olive oil"],
+        ["lettuce", "tomato", "cucumber", "carrot", "olive oil", "chicken"],
+        ["lettuce", "tomato", "cucumber", "carrot", "chicken", "onion"],
+        ["lettuce", "tomato", "cucumber", "carrot", "onion", "olive oil"],
+        ["lettuce", "tomato", "cucumber", "carrot", "onion", "chicken"],
+        ["lettuce", "tomato", "cucumber", "olive oil", "onion"],
+        ["lettuce", "tomato", "cucumber", "carrot", "olive oil", "onion"],
+        ["lettuce", "tomato", "carrot", "onion", "chicken"],
+        ["lettuce", "tomato", "carrot", "onion", "olive oil"],
+        ["lettuce", "tomato", "carrot", "cucumber", "onion"],
+        ["lettuce", "tomato", "carrot", "cucumber", "olive oil"],
+        ["lettuce", "tomato", "onion", "cucumber", "carrot"],
+        ["lettuce", "tomato", "onion", "cucumber", "olive oil"],
+        ["lettuce", "tomato", "onion", "cucumber", "chicken"],
+        ["lettuce", "tomato", "onion", "cucumber", "carrot"],
+        ["lettuce", "tomato", "onion", "carrot", "olive oil"]
+    ];
+
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [shop, setShop] = useState('');
     const [price, setPrice] = useState('');
+    const [result, setResult] = useState('')
+    const [showDiv, setShowDiv] = useState(false);
+
+
+    const handleShow = () => {
+        AdditionModule.addAlgo(data, 1)
+            .then((result) => {
+                console.log(result);
+                setResult(result);
+                setShowDiv(true);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     const handleAdd = () => {
         const parsedQuantity = parseInt(quantity, 10);
@@ -106,9 +145,20 @@ const AddItems = () => {
                 placeholder="Price per unit"
                 keyboardType="numeric"
             />
-            <TouchableOpacity style={styles.button} onPress={handleAdd}>
+            <TouchableOpacity style={styles.button1} onPress={handleAdd}>
                 <Text style={styles.buttonText}>Add Item</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.button2} onPress={handleShow}>
+                <Text style={styles.buttonText}>Esga</Text>
+            </TouchableOpacity>
+
+            {showDiv && (
+                <View>
+                    <Text style={styles.text}>Your Current bet selling product is</Text>
+                    <Text style={styles.text1}>{result}</Text>
+                </View>
+            )}
+
         </View>
     );
 };
@@ -118,13 +168,25 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#123456',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+    },
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 40,
+    },
+    text1: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign:'center',
+        marginTop: 10,
     },
     input: {
         borderWidth: 1,
@@ -134,10 +196,18 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: '100%',
     },
-    button: {
+    button1: {
         backgroundColor: '#007AFF',
         borderRadius: 5,
         padding: 10,
+        width: '100%',
+        alignItems: 'center',
+    },
+    button2: {
+        backgroundColor: '#007AFF',
+        borderRadius: 5,
+        padding: 10,
+        marginTop: 20,
         width: '100%',
         alignItems: 'center',
     },

@@ -7,6 +7,7 @@ import ShopItems from '../screens/ShopItems';
 import ItemSelection from '../screens/ItemSelection';
 import Clear from '../screens/Clear';
 import User from '../screens/User';
+// import Adder from '../screens/Adder';
 
 const HomeRoutes = () => {
 
@@ -33,6 +34,7 @@ const HomeRoutes = () => {
                 }}>
                 {/* <Stack.Screen name="Home" component={Home} options={{ header: () => null }} /> */}
                 {/* <Stack.Screen name="Clear" component={Clear} options={{ title: 'Clear all' }} /> */}
+                {/* <Stack.Screen name="Clear" component={Adder} options={{ title: 'Add' }} /> */}
                 <Stack.Screen name="Home" component={Home} options={{ title: 'Groceries' }} />
                 <Stack.Screen name="User" component={User} options={{ title: 'Home' }} />       
                 <Stack.Screen name="AddItems" component={AddItems} options={{ title: 'Add Items' }} />

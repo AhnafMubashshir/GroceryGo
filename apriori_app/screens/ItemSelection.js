@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { openDatabase } from 'react-native-sqlite-storage';
 
+
 const db = openDatabase({ name: 'onlineGrocery.db' });
 
 const ItemSelection = ({ route }) => {
     const [quantity, setQuantity] = useState(0);
     const [items, setItems] = useState([]);
     const navigation = useNavigation();
-
 
     const updateQuantity = async (newQuantity) => {
         db.transaction((tx) => {
@@ -65,7 +65,7 @@ const ItemSelection = ({ route }) => {
 
 
     const incrementQuantity = () => {
-        if (route.params.itemQuantity - quantity > 0 ) {
+        if (route.params.itemQuantity - quantity > 0) {
             const newQuantity = quantity + 1;
             setQuantity(newQuantity);
         }
